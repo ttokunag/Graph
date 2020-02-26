@@ -2,24 +2,24 @@
 #define ACTORNODE_HPP
 
 #include <string>
-#include <vector>
-#include "ActorEdge.hpp"
+#include <unordered_map>
+#include "MovieEdge.hpp"
 
 using namespace std;
 
 class ActorNode {
   private:
     string name;
-    vector<ActorEdge*> acquaintances;
+    unordered_map<string, MovieEdge*> neighbors;
 
   public:
-    ActorNode();
+    ActorNode(string name) : name(name), neighbors(){};
 
-    void buildEdge(string movieName, ActorNode* actor);
+    void buildEdge(string movieName, int movieYear, ActorNode* actor);
 
     string getName();
 
-    vector<ActorEdge*> getAcqs();
+    unordered_map<string, MovieEdge*> getNeighbors();
 };
 
 #endif
