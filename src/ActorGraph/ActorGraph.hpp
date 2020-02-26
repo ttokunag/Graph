@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include "ActorNode.hpp"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ using namespace std;
 class ActorGraph {
   protected:
     // TODO: add data structures used in actor graph
+    vector<ActorNode*> actors;
 
   public:
     /* TODO */
