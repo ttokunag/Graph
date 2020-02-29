@@ -22,6 +22,7 @@ class ActorGraph {
 
   public:
     unordered_map<string, ActorNode*> actors;
+    unordered_map<string, vector<ActorNode*>> movies;
     /* TODO */
     ActorGraph();
 
@@ -38,6 +39,10 @@ class ActorGraph {
 
     /* TODO */
     ~ActorGraph();
+
+    void addActor(string name, string movieName, int movieYear);
+
+    void buildConnection();
 };
 
 #endif  // ACTORGRAPH_HPP

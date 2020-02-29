@@ -19,8 +19,35 @@ TEST(ActorTest, ACTOR_NODE_TEST) {
 TEST(ActorTest, ACTOR_GRAPH_TEST) {
     ActorGraph graph;
 
-    // graph.buildGraphFromFile("data/imdb_2019.tsv");
-    // string name = graph.actors.at("Kevin Bacon")->getName();
-    unordered_map<string, ActorNode*> a = graph.actors;
-    cout << "done" << endl;
+    graph.addActor("actor1", "movie1", 2000);
+    graph.addActor("actor1", "movie1", 2002);
+    graph.addActor("actor2", "movie1", 2000);
+    graph.addActor("actor3", "movie1", 2002);
+    graph.buildConnection();
+
+    for (pair<string, ActorNode*> actor : graph.actors) {
+        for (MovieEdge* m : actor.second->movies) {
+            cout << actor.first << ": " << m->getName() << " " << m->getYear()
+                 << endl;
+        }
+    }
+    cout << '\n';
+
+    for (pair<string, vector<ActorNode*>> movie : graph.movies) {
+        cout << movie.first << ": " << endl;
+        for (ActorNode* actor : movie.second) {
+            cout << actor->getName() << " " << endl;
+        }
+    }
+    cout << '\n';
+
+    for (pair<string, ActorNode*> actor : graph.actors) {
+        cout << actor.first << endl;
+        for (pair<string, MovieEdge*> n : actor.second->getNeighbors()) {
+            cout << n.first << ": " << n.second->getName() << ", "
+                 << n.second->getYear() << endl;
+        }
+    }
+
+    ASSERT_EQ("actor1", graph.actors.at("actor1")->getName());
 }

@@ -55,19 +55,7 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
         cout << actor << endl;
 
         // TODO: we have an actor/movie relationship to build the graph
-        ActorNode* actorNode;
-        unordered_map<string, ActorNode*>::const_iterator key =
-            actors.find(actor);
-
-        // create a new node OR retrieve an existent one
-        if (key == actors.end()) {
-            actorNode = key->second;
-        } else {
-            actorNode = new ActorNode(actor);
-            actors.insert(pair<string, ActorNode*>(actor, actorNode));
-        }
-        // add a movie
-        actorNode->addMovie(title, year);
+        addActor(actor, title, year);
     }
 
     // if failed to read the file, clear the graph and return
@@ -88,6 +76,51 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
 void ActorGraph::predictLink(const string& queryActor,
                              vector<string>& predictionNames,
                              unsigned int numPrediction) {}
+
+void ActorGraph::addActor(string name, string title, int year) {
+    ActorNode* actorNode;
+
+    // create a new node OR retrieve an existent one
+    if (actors.count(name) > 0) {
+        actorNode = actors.at(name);
+    } else {
+        actorNode = new ActorNode(name);
+        actors.insert(pair<string, ActorNode*>(name, actorNode));
+    }
+    // add a movie
+    actorNode->addMovie(title, year);
+
+    // add an actor to a movie actor list
+    string movieKey = title + to_string(year);
+    vector<ActorNode*>* movieActors;
+    if (movies.count(movieKey) > 0) {
+        movieActors = &(movies.at(movieKey));
+        movieActors->push_back(actorNode);
+    } else {
+        movieActors = new vector<ActorNode*>();
+        movieActors->push_back(actorNode);
+        movies.insert(pair<string, vector<ActorNode*>>(movieKey, *movieActors));
+    }
+
+    // movieActors->push_back(actorNode);
+}
+
+void ActorGraph::buildConnection() {
+    for (pair<string, vector<ActorNode*>> movie : movies) {
+        vector<ActorNode*> movieActors = movie.second;
+        for (int i = 0; i < movieActors.size() - 1; i++) {
+            for (int j = i + 1; j < movieActors.size(); j++) {
+                ActorNode* actor1 = movieActors[i];
+                ActorNode* actor2 = movieActors[j];
+                string title = movie.first.substr(0, movie.first.size() - 4);
+                int year = stoi(movie.first.substr(movie.first.size() - 4, 4));
+
+                actor1->buildEdge(title, year, actor2);
+                actor2->buildEdge(title, year, actor1);
+            }
+        }
+    }
+}
 
 /* TODO */
 ActorGraph::~ActorGraph() {}

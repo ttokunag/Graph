@@ -11,10 +11,13 @@ using namespace std;
 class ActorNode {
   private:
     string name;
-    unordered_map<string, MovieEdge*> neighbors;
-    vector<MovieEdge*> movies;
+    // unordered_map<string, MovieEdge*> neighbors;
+    // vector<MovieEdge*> movies;
 
   public:
+    vector<MovieEdge*> movies;
+    unordered_map<string, MovieEdge*> neighbors;
+
     ActorNode(string name) : name(name), neighbors(), movies(){};
 
     void addMovie(string name, int year);
