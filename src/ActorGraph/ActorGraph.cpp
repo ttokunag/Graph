@@ -11,7 +11,7 @@
 using namespace std;
 
 /* TODO */
-ActorGraph::ActorGraph() {}
+ActorGraph::ActorGraph() : actors() {}
 
 /* Build the actor graph from dataset file.
  * Each line of the dataset file must be formatted as:
@@ -52,7 +52,22 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
         string title(record[1]);
         int year = stoi(record[2]);
 
+        cout << actor << endl;
+
         // TODO: we have an actor/movie relationship to build the graph
+        ActorNode* actorNode;
+        unordered_map<string, ActorNode*>::const_iterator key =
+            actors.find(actor);
+
+        // create a new node OR retrieve an existent one
+        if (key == actors.end()) {
+            actorNode = key->second;
+        } else {
+            actorNode = new ActorNode(actor);
+            actors.insert(pair<string, ActorNode*>(actor, actorNode));
+        }
+        // add a movie
+        actorNode->addMovie(title, year);
     }
 
     // if failed to read the file, clear the graph and return

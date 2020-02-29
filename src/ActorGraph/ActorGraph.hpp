@@ -6,6 +6,7 @@
 #define ACTORGRAPH_HPP
 
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 #include "ActorNode.hpp"
 
@@ -17,9 +18,10 @@ using namespace std;
 class ActorGraph {
   protected:
     // TODO: add data structures used in actor graph
-    vector<ActorNode*> actors;
+    // unordered_map<string, ActorNode*> actors;
 
   public:
+    unordered_map<string, ActorNode*> actors;
     /* TODO */
     ActorGraph();
 
