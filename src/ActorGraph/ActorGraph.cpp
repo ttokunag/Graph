@@ -108,7 +108,20 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
     // trace back a generated shortest path
     if (destination != nullptr) {
         while (destination != nullptr) {
-            shortestPath = destination->getName() + " " + shortestPath;
+            string to = "(" + destination->getName() + ")";
+            string edge = "";
+
+            // unless a node isn't a root, create an edge string
+            if (destination->prevNode != nullptr) {
+                // retrieve movie info between two actors
+                MovieEdge* movieInfo =
+                    destination->prevNode->neighbors.at(destination->getName());
+
+                edge = "--[" + movieInfo->getName() + "#@" +
+                       to_string(movieInfo->getYear()) + "]-->";
+            }
+
+            shortestPath = edge + to + shortestPath;
             destination = destination->prevNode;
         }
     }
