@@ -17,8 +17,15 @@ class ActorNode {
   public:
     vector<MovieEdge*> movies;
     unordered_map<string, MovieEdge*> neighbors;
+    ActorNode* prevNode;
+    int distanceFromRoot;
 
-    ActorNode(string name) : name(name), neighbors(), movies(){};
+    ActorNode(string name)
+        : name(name),
+          neighbors(),
+          movies(),
+          distanceFromRoot(-1),
+          prevNode(nullptr){};
 
     void addMovie(string name, int year);
 

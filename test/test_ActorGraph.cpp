@@ -49,5 +49,9 @@ TEST(ActorTest, ACTOR_GRAPH_TEST) {
         }
     }
 
+    string shortestPath = "";
+    graph.BFS("actor2", "actor3", shortestPath);
+    cout << shortestPath << endl;
+
     ASSERT_EQ("actor1", graph.actors.at("actor1")->getName());
 }

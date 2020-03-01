@@ -5,6 +5,7 @@
 #include "ActorGraph.hpp"
 #include <fstream>
 #include <iostream>
+#include <queue>
 #include <sstream>
 #include <string>
 
@@ -70,7 +71,50 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
 
 /* TODO */
 void ActorGraph::BFS(const string& fromActor, const string& toActor,
-                     string& shortestPath) {}
+                     string& shortestPath) {
+    // Invalid Input: a graph doesn't contains either given actors
+    if (actors.count(fromActor) == 0 || actors.count(toActor) == 0) {
+        return;
+    }
+
+    ActorNode* startActor = actors.at(fromActor);
+    startActor->distanceFromRoot = 0;  // mark it visited
+
+    ActorNode* destination = nullptr;
+
+    queue<ActorNode*> q;
+    q.push(startActor);  // push a start actor & modifies a shortestPath string
+
+    // begins BFS
+    while (!q.empty()) {
+        ActorNode* curr = q.front();
+        q.pop();
+        if (curr->getName().compare(toActor) == 0) {  // reached a destination
+            destination = curr;
+            break;
+        }
+
+        for (pair<string, MovieEdge*> neighborPair : curr->neighbors) {
+            ActorNode* neighbor = actors.at(neighborPair.first);
+            // checks if a neighbor is visited yet
+            if (neighbor->distanceFromRoot == -1) {
+                neighbor->distanceFromRoot = curr->distanceFromRoot + 1;
+                neighbor->prevNode = curr;
+                q.push(neighbor);
+            }
+        }
+    }
+
+    // trace back a generated shortest path
+    if (destination != nullptr) {
+        while (destination != nullptr) {
+            shortestPath = destination->getName() + " " + shortestPath;
+            destination = destination->prevNode;
+        }
+    }
+
+    return;
+}
 
 /* TODO */
 void ActorGraph::predictLink(const string& queryActor,
