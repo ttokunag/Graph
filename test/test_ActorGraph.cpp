@@ -25,15 +25,6 @@ TEST(ActorTest, ACTOR_GRAPH_TEST) {
     graph.addActor("actor3", "movie1", 2002);
     graph.buildConnection();
 
-    // for (pair<string, ActorNode*> actor : graph.actors) {
-    //     for (MovieEdge* m : actor.second->movies) {
-    //         cout << actor.first << ": " << m->getName() << " " <<
-    //         m->getYear()
-    //              << endl;
-    //     }
-    // }
-    // cout << '\n';
-
     for (pair<string, vector<ActorNode*>*> movie : graph.movies) {
         cout << movie.first << ": " << endl;
         for (ActorNode* actor : *(movie.second)) {
