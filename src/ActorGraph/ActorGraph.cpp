@@ -155,8 +155,9 @@ void ActorGraph::addActor(string name, string title, int year) {
 
     // add an actor to a movie actor list
     string movieKey = title + to_string(year);
-    // vector<ActorNode*>* movieActors;
+
     vector<ActorNode*>* movieActors = new vector<ActorNode*>();
+    // when a movie is included in a graph already
     if (movies.count(movieKey) > 0) {
         movieActors = movies.at(movieKey);
     }
@@ -164,21 +165,6 @@ void ActorGraph::addActor(string name, string title, int year) {
     if (movies.count(movieKey) == 0) {
         movies.insert(pair<string, vector<ActorNode*>*>(movieKey, movieActors));
     }
-
-    // // when a movie is already added to a graph
-    // if (movies.count(movieKey) > 0) {
-    //     movieActors = &(movies.at(movieKey));
-    //     movieActors->push_back(actorNode);
-    // }
-    // // when a movie is not included yet
-    // else {
-    //     movieActors = new vector<ActorNode*>();
-    //     movieActors->push_back(actorNode);
-    //     movies.insert(pair<string, vector<ActorNode*>>(movieKey,
-    //     *movieActors));
-    // }
-
-    // movieActors->push_back(actorNode);
 }
 
 // build a connection between actors
@@ -203,4 +189,15 @@ void ActorGraph::buildConnection() {
 }
 
 /* TODO */
-ActorGraph::~ActorGraph() {}
+ActorGraph::~ActorGraph() {
+    for (pair<string, ActorNode*> actor : actors) {
+        ActorNode* curr = actor.second;
+        for (pair<string, MovieEdge*> n : curr->neighbors) {
+            delete n.second;
+        }
+        delete curr;
+    }
+    for (pair<string, vector<ActorNode*>*> movie : movies) {
+        delete movie.second;
+    }
+}

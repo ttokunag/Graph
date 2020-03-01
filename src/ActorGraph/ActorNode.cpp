@@ -14,8 +14,8 @@ unordered_map<string, MovieEdge*> ActorNode::getNeighbors() {
 }
 
 ActorNode::~ActorNode() {
-    for (pair<string, MovieEdge*> n : neighbors) {
-        delete n.second;
-    }
-    delete prevNode;
+    // for (pair<string, MovieEdge*> n : neighbors) {
+    //     delete n.second;
+    // }
+    // delete prevNode;
 }
