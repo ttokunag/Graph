@@ -80,23 +80,26 @@ void ActorGraph::predictLink(const string& queryActor,
 void ActorGraph::addActor(string name, string title, int year) {
     ActorNode* actorNode;
 
-    // create a new node OR retrieve an existent one
+    // when an actor is not included in a graph
     if (actors.count(name) > 0) {
         actorNode = actors.at(name);
     } else {
         actorNode = new ActorNode(name);
         actors.insert(pair<string, ActorNode*>(name, actorNode));
     }
-    // add a movie
-    actorNode->addMovie(title, year);
+    // // add a movie
+    // actorNode->addMovie(title, year);
 
     // add an actor to a movie actor list
     string movieKey = title + to_string(year);
     vector<ActorNode*>* movieActors;
+    // when a movie is already added to a graph
     if (movies.count(movieKey) > 0) {
         movieActors = &(movies.at(movieKey));
         movieActors->push_back(actorNode);
-    } else {
+    }
+    // when a movie is not included yet
+    else {
         movieActors = new vector<ActorNode*>();
         movieActors->push_back(actorNode);
         movies.insert(pair<string, vector<ActorNode*>>(movieKey, *movieActors));
@@ -105,9 +108,13 @@ void ActorGraph::addActor(string name, string title, int year) {
     // movieActors->push_back(actorNode);
 }
 
+// build a connection between actors
 void ActorGraph::buildConnection() {
+    // exhaustive search for actor pairs by movies
     for (pair<string, vector<ActorNode*>> movie : movies) {
+        // a vector of actors appear in the movie
         vector<ActorNode*> movieActors = movie.second;
+        // build connections for each pair of actors
         for (int i = 0; i < movieActors.size() - 1; i++) {
             for (int j = i + 1; j < movieActors.size(); j++) {
                 ActorNode* actor1 = movieActors[i];

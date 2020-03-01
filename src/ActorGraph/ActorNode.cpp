@@ -10,8 +10,6 @@ void ActorNode::addMovie(string name, int year) {
 void ActorNode::buildEdge(string movieName, int movieYear, ActorNode* actor) {
     MovieEdge* movie = new MovieEdge(movieName, movieYear);
     neighbors.insert(pair<string, MovieEdge*>(actor->getName(), movie));
-    // actor->getNeighbors().insert(pair<string, MovieEdge*>(this->name,
-    // movie)); actor->buildEdge(movieName, movieYear, this);
 }
 
 string ActorNode::getName() { return name; }
