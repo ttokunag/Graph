@@ -30,7 +30,7 @@ class ActorGraph {
      * KEY: a string name of a movie
      * VAL: a vector of actors of the movie
      */
-    unordered_map<string, vector<ActorNode*>> movies;
+    unordered_map<string, vector<ActorNode*>*> movies;
 
     /* TODO */
     ActorGraph();

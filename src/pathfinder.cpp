@@ -36,7 +36,11 @@ int main(int argc, char* argv[]) {
     // build the actor graph from the input file
     ActorGraph* graph = new ActorGraph();
     cout << "Reading " << graphFileName << " ..." << endl;
-    if (!graph->buildGraphFromFile(graphFileName)) return 1;
+    if (!graph->buildGraphFromFile(graphFileName)) {
+        return 1;
+    }
+    // build a connection between actors
+    graph->buildConnection();
     cout << "Done." << endl;
 
     // write the shorest path of each given pair to the output file

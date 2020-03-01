@@ -1,0 +1,8 @@
+(actor)--[movie#@year]-->(actor)--...
+(Nicole Kidman)--[Untitled Roger Ailes Project#@2019]-->(Charlize Theron)--[Sweet November#@2001]-->(Keanu Reeves)
+(Tim Roth)--[Reservoir Dogs#@1992]-->(Michael Madsen)--[Magic Boys#@2012]-->(Vinnie Jones)
+(Will Smith)--[Gemini Man#@2019]-->(Mary Elizabeth Winstead)--[A Good Day to Die Hard#@2013]-->(Bruce Willis)
+(Christopher Walken)--[Around the Bend#@2004]-->(Josh Lucas)--[An Unfinished Life#@2005]-->(Morgan Freeman)
+(Courteney Cox)--[The Runner#@1999]-->(Ron Eldard)--[Roadie#@2011]-->(Jill Hennessy)--[If I Had Wings#@2013]-->(Richard Harmon)
+(Cameron Diaz)--[Shrek#@2001]-->(John Lithgow)--[Footloose#@1984]-->(Dianne Wiest)--[Cookie#@1989]-->(Emily Lloyd)
+(Kyra Sedgwick)--[Big Sky#@2015]-->(Frank Grillo)

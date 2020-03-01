@@ -53,7 +53,7 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
         string title(record[1]);
         int year = stoi(record[2]);
 
-        cout << actor << endl;
+        // cout << actor << endl;
 
         // TODO: we have an actor/movie relationship to build the graph
         addActor(actor, title, year);
@@ -126,6 +126,12 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
         }
     }
 
+    for (pair<string, ActorNode*> actor : actors) {
+        ActorNode* curr = actor.second;
+        curr->prevNode = nullptr;
+        curr->distanceFromRoot = -1;
+    }
+
     return;
 }
 
@@ -149,18 +155,28 @@ void ActorGraph::addActor(string name, string title, int year) {
 
     // add an actor to a movie actor list
     string movieKey = title + to_string(year);
-    vector<ActorNode*>* movieActors;
-    // when a movie is already added to a graph
+    // vector<ActorNode*>* movieActors;
+    vector<ActorNode*>* movieActors = new vector<ActorNode*>();
     if (movies.count(movieKey) > 0) {
-        movieActors = &(movies.at(movieKey));
-        movieActors->push_back(actorNode);
+        movieActors = movies.at(movieKey);
     }
-    // when a movie is not included yet
-    else {
-        movieActors = new vector<ActorNode*>();
-        movieActors->push_back(actorNode);
-        movies.insert(pair<string, vector<ActorNode*>>(movieKey, *movieActors));
+    movieActors->push_back(actorNode);
+    if (movies.count(movieKey) == 0) {
+        movies.insert(pair<string, vector<ActorNode*>*>(movieKey, movieActors));
     }
+
+    // // when a movie is already added to a graph
+    // if (movies.count(movieKey) > 0) {
+    //     movieActors = &(movies.at(movieKey));
+    //     movieActors->push_back(actorNode);
+    // }
+    // // when a movie is not included yet
+    // else {
+    //     movieActors = new vector<ActorNode*>();
+    //     movieActors->push_back(actorNode);
+    //     movies.insert(pair<string, vector<ActorNode*>>(movieKey,
+    //     *movieActors));
+    // }
 
     // movieActors->push_back(actorNode);
 }
@@ -168,14 +184,14 @@ void ActorGraph::addActor(string name, string title, int year) {
 // build a connection between actors
 void ActorGraph::buildConnection() {
     // exhaustive search for actor pairs by movies
-    for (pair<string, vector<ActorNode*>> movie : movies) {
+    for (pair<string, vector<ActorNode*>*> movie : movies) {
         // a vector of actors appear in the movie
-        vector<ActorNode*> movieActors = movie.second;
+        vector<ActorNode*>* movieActors = movie.second;
         // build connections for each pair of actors
-        for (int i = 0; i < movieActors.size() - 1; i++) {
-            for (int j = i + 1; j < movieActors.size(); j++) {
-                ActorNode* actor1 = movieActors[i];
-                ActorNode* actor2 = movieActors[j];
+        for (int i = 0; i < movieActors->size() - 1; i++) {
+            for (int j = i + 1; j < movieActors->size(); j++) {
+                ActorNode* actor1 = movieActors->at(i);
+                ActorNode* actor2 = movieActors->at(j);
                 string title = movie.first.substr(0, movie.first.size() - 4);
                 int year = stoi(movie.first.substr(movie.first.size() - 4, 4));
 
