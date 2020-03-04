@@ -19,35 +19,16 @@ TEST(ActorTest, ACTOR_NODE_TEST) {
 TEST(ActorTest, ACTOR_GRAPH_TEST) {
     ActorGraph graph;
 
-    graph.addActor("actor1", "movie1", 2000);
-    graph.addActor("actor1", "movie1", 2002);
-    graph.addActor("actor2", "movie1", 2000);
-    graph.addActor("actor3", "movie1", 2002);
-    // graph.buildConnection();
-
-    // for (pair<string, vector<ActorNode*>*> movie : graph.movies) {
-    //     cout << movie.first << ": " << endl;
-    //     for (ActorNode* actor : *(movie.second)) {
-    //         cout << actor->getName() << " " << endl;
-    //     }
-    // }
-    cout << '\n';
-
-    for (pair<string, ActorNode*> actor : graph.actors) {
-        cout << actor.first << endl;
-        // for (pair<string, MovieEdge*> n : actor.second->neighbors) {
-        //     cout << n.first << ": " << n.second->getName() << ", "
-        //          << n.second->getYear() << endl;
-        // }
-        for (pair<string, MovieEdge> n : actor.second->neighbors) {
-            cout << n.first << ": " << n.second.getName() << ", "
-                 << n.second.getYear() << endl;
-        }
-    }
+    graph.buildGraphFromFile("../data/small_actor_graph.tsv");
+    graph.buildConnection();
 
     string shortestPath = "";
-    graph.BFS("actor2", "actor3", shortestPath);
-    cout << shortestPath << endl;
+    graph.BFS("Samuel L. Jackson", "Robert Downey Jr.", shortestPath);
 
-    ASSERT_EQ("actor1", graph.actors.at("actor1")->getName());
+    ASSERT_EQ(
+        "(Samuel L. Jackson)--[Avengers: Endgame#@2019]-->(Robert Downey Jr.)",
+        shortestPath);
+
+    vector<string> names;
+    graph.predictLink("", names, 0);
 }

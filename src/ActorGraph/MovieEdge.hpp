@@ -19,8 +19,6 @@ class MovieEdge {
     string getName();
 
     int getYear();
-
-    bool equals(MovieEdge movie);
 };
 
 #endif
