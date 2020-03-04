@@ -19,7 +19,7 @@ TEST(ActorTest, ACTOR_NODE_TEST) {
 TEST(ActorTest, ACTOR_GRAPH_TEST) {
     ActorGraph graph;
 
-    graph.buildGraphFromFile("../data/small_actor_graph.tsv");
+    graph.buildGraphFromFile("../src/small_actor_graph.tsv");
     graph.buildConnection();
 
     string shortestPath = "";
