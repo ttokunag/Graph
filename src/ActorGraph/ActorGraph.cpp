@@ -84,6 +84,8 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
 
     queue<ActorNode*> q;
     q.push(startActor);  // push a start actor & modifies a shortestPath string
+    queue<ActorNode*> visited;
+    visited.push(startActor);
 
     // begins BFS
     while (!q.empty()) {
@@ -93,7 +95,7 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
             destination = curr;
             break;
         }
-
+        // visit a current node neighbors
         for (pair<string, MovieEdge*> neighborPair : curr->neighbors) {
             ActorNode* neighbor = actors.at(neighborPair.first);
             // checks if a neighbor is visited yet
@@ -101,20 +103,24 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
                 neighbor->distanceFromRoot = curr->distanceFromRoot + 1;
                 neighbor->prevNode = curr;
                 q.push(neighbor);
+                visited.push(neighbor);
             }
         }
     }
 
+    string to;
+    string edge;
+    MovieEdge* movieInfo;
     // trace back a generated shortest path
     if (destination != nullptr) {
         while (destination != nullptr) {
-            string to = "(" + destination->getName() + ")";
-            string edge = "";
+            to = "(" + destination->getName() + ")";
+            edge = "";
 
             // unless a node isn't a root, create an edge string
             if (destination->prevNode != nullptr) {
                 // retrieve movie info between two actors
-                MovieEdge* movieInfo =
+                movieInfo =
                     destination->prevNode->neighbors.at(destination->getName());
 
                 edge = "--[" + movieInfo->getName() + "#@" +
@@ -126,10 +132,12 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
         }
     }
 
-    for (pair<string, ActorNode*> actor : actors) {
-        ActorNode* curr = actor.second;
+    ActorNode* curr;
+    while (!visited.empty()) {
+        curr = visited.front();
         curr->prevNode = nullptr;
         curr->distanceFromRoot = -1;
+        visited.pop();
     }
 
     return;
@@ -141,17 +149,15 @@ void ActorGraph::predictLink(const string& queryActor,
                              unsigned int numPrediction) {}
 
 void ActorGraph::addActor(string name, string title, int year) {
-    ActorNode* actorNode;
+    ActorNode* currActor;
 
     // when an actor is not included in a graph
     if (actors.count(name) > 0) {
-        actorNode = actors.at(name);
+        currActor = actors.at(name);
     } else {
-        actorNode = new ActorNode(name);
-        actors.insert(pair<string, ActorNode*>(name, actorNode));
+        currActor = new ActorNode(name);
+        actors.insert(pair<string, ActorNode*>(name, currActor));
     }
-    // // add a movie
-    // actorNode->addMovie(title, year);
 
     // add an actor to a movie actor list
     string movieKey = title + to_string(year);
@@ -161,7 +167,16 @@ void ActorGraph::addActor(string name, string title, int year) {
     if (movies.count(movieKey) > 0) {
         movieActors = movies.at(movieKey);
     }
-    movieActors->push_back(actorNode);
+
+    // // build a connection between a current actor and other actors
+    // for (ActorNode* actor : *movieActors) {
+    //     currActor->buildEdge(title, year, actor);
+    //     actor->buildEdge(title, year, currActor);
+    // }
+
+    // add a current actor to a vector
+    movieActors->push_back(currActor);
+    // when a graph contains a given movie title
     if (movies.count(movieKey) == 0) {
         movies.insert(pair<string, vector<ActorNode*>*>(movieKey, movieActors));
     }

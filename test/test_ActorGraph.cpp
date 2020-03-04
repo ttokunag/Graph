@@ -23,7 +23,7 @@ TEST(ActorTest, ACTOR_GRAPH_TEST) {
     graph.addActor("actor1", "movie1", 2002);
     graph.addActor("actor2", "movie1", 2000);
     graph.addActor("actor3", "movie1", 2002);
-    graph.buildConnection();
+    // graph.buildConnection();
 
     for (pair<string, vector<ActorNode*>*> movie : graph.movies) {
         cout << movie.first << ": " << endl;
