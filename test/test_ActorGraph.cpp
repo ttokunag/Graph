@@ -25,19 +25,23 @@ TEST(ActorTest, ACTOR_GRAPH_TEST) {
     graph.addActor("actor3", "movie1", 2002);
     // graph.buildConnection();
 
-    for (pair<string, vector<ActorNode*>*> movie : graph.movies) {
-        cout << movie.first << ": " << endl;
-        for (ActorNode* actor : *(movie.second)) {
-            cout << actor->getName() << " " << endl;
-        }
-    }
+    // for (pair<string, vector<ActorNode*>*> movie : graph.movies) {
+    //     cout << movie.first << ": " << endl;
+    //     for (ActorNode* actor : *(movie.second)) {
+    //         cout << actor->getName() << " " << endl;
+    //     }
+    // }
     cout << '\n';
 
     for (pair<string, ActorNode*> actor : graph.actors) {
         cout << actor.first << endl;
-        for (pair<string, MovieEdge*> n : actor.second->getNeighbors()) {
-            cout << n.first << ": " << n.second->getName() << ", "
-                 << n.second->getYear() << endl;
+        // for (pair<string, MovieEdge*> n : actor.second->neighbors) {
+        //     cout << n.first << ": " << n.second->getName() << ", "
+        //          << n.second->getYear() << endl;
+        // }
+        for (pair<string, MovieEdge> n : actor.second->neighbors) {
+            cout << n.first << ": " << n.second.getName() << ", "
+                 << n.second.getYear() << endl;
         }
     }
 

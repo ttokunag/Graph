@@ -13,7 +13,7 @@ class ActorNode {
     string name;
 
   public:
-    unordered_map<string, MovieEdge*> neighbors;
+    unordered_map<string, MovieEdge> neighbors;
     ActorNode* prevNode;
     int distanceFromRoot;
 
@@ -23,8 +23,6 @@ class ActorNode {
     void buildEdge(string movieName, int movieYear, ActorNode* actor);
 
     string getName();
-
-    unordered_map<string, MovieEdge*> getNeighbors();
 
     ~ActorNode();
 };

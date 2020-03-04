@@ -3,19 +3,13 @@
 using namespace std;
 
 void ActorNode::buildEdge(string movieName, int movieYear, ActorNode* actor) {
-    MovieEdge* movie = new MovieEdge(movieName, movieYear);
-    neighbors.insert(pair<string, MovieEdge*>(actor->getName(), movie));
+    MovieEdge movie(movieName, movieYear);
+    neighbors.insert(pair<string, MovieEdge>(actor->getName(), movie));
 }
 
 string ActorNode::getName() { return name; }
 
-unordered_map<string, MovieEdge*> ActorNode::getNeighbors() {
-    return neighbors;
-}
-
 ActorNode::~ActorNode() {
-    // for (pair<string, MovieEdge*> n : neighbors) {
-    //     delete n.second;
-    // }
-    // delete prevNode;
+    delete prevNode;
+    neighbors.clear();
 }
