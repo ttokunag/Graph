@@ -1,4 +1,5 @@
 
+#include <queue>
 #include "Map.hpp"
 
 /* TODO */
@@ -88,7 +89,15 @@ bool Map::addEdge(const string& name1, const string& name2) {
     return true;
 }
 
-/* TODO */
+/**
+ * calculates a shortest path between given two nodes. if there's no such path,
+ * a given vector stays empty. otherwise the vector contains vectors in the
+ * order of "from" to "to"
+ *
+ * @param string: a name of a starting node
+ * @param string: a name of a ending node
+ * @param vector<Vertex*>: contains nodes of a shortest path
+ */
 void Map::Dijkstra(const string& from, const string& to,
                    vector<Vertex*>& shortestPath) {}
 
