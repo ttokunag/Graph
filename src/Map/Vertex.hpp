@@ -18,10 +18,17 @@ class Vertex {
     vector<Edge*> outEdges;  // the adjacency list of this vertex that contains
                              // all outgoing edges
 
+    // member variables for Dijkstra's algorithm
     float distance;    // distance from a root
     Vertex* previous;  // a previous node in a dijkstra shortest path
-    Vertex* parent;    // a parent node in a disjoint set
     bool done;         // true if a shortest distance is already calculated
+
+    // member variables for Kruskal's algorithm
+    Vertex* parent;  // a parent node in a disjoint set
+
+    // member variables for crucial roads
+    int discoveryTime;
+    int low;
 
     /* The constructor that creates a new vertex */
     Vertex(const string& name, float x, float y)
@@ -31,7 +38,9 @@ class Vertex {
           distance(INFINITY),
           previous(nullptr),
           parent(nullptr),
-          done(false) {}
+          done(false),
+          discoveryTime(-1),
+          low(-1) {}
 };
 
 struct VertexPtrCmp {

@@ -40,6 +40,8 @@ class Map {
 
     bool unionVerts(Vertex* v1, Vertex* v2);
 
+    void crucialRoadsHelper(Vertex* node, vector<Edge*>*& roads, int time);
+
   public:
     vector<Vertex*> vertices;
     /* TODO */

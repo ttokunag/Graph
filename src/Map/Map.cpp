@@ -196,7 +196,45 @@ void Map::findMST(vector<Edge*>& MST) {
 }
 
 /* TODO */
-void Map::crucialRoads(vector<Edge*>& roads) {}
+void Map::crucialRoads(vector<Edge*>& roads) {
+    // invalid case: a map contains no node
+    if (vertices.size() == 0) {
+        return;
+    }
+
+    int time = 0;
+    vector<Edge*>* vecPtr = &roads;
+    crucialRoadsHelper(vertices[0], vecPtr, time);
+
+    for (Vertex* v : vertices) {
+        v->discoveryTime = -1;
+        v->low = -1;
+        v->parent = nullptr;
+    }
+}
+
+void Map::crucialRoadsHelper(Vertex* node, vector<Edge*>*& roads, int time) {
+    node->discoveryTime = node->low = ++time;
+
+    for (Edge* edge : node->outEdges) {
+        Vertex* neighbor = edge->target;
+
+        // when a neighbor node is not yet visited
+        if (neighbor->discoveryTime == -1) {
+            neighbor->parent = node;
+            // recursive call
+            crucialRoadsHelper(neighbor, roads, time);
+
+            node->low = min(node->low, neighbor->low);
+
+            if (neighbor->low > node->discoveryTime) {
+                roads->push_back(edge);
+            }
+        } else if (neighbor != node->parent) {
+            node->low = min(node->low, neighbor->discoveryTime);
+        }
+    }
+}
 
 /* Destructor of Map graph */
 Map::~Map() {
