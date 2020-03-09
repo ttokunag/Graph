@@ -14,7 +14,7 @@ using namespace std;
 class Map {
   private:
     // vector storing vertices in the map: id of each vertex = index in vector
-    vector<Vertex*> vertices;
+    // vector<Vertex*> vertices;
 
     // Map: name of vertex -> id of vertex = index storing vertex ptr
     unordered_map<string, unsigned int> vertexId;
@@ -37,6 +37,7 @@ class Map {
     void backtraceThePath(Vertex* node, vector<Vertex*>* path);
 
   public:
+    vector<Vertex*> vertices;
     /* TODO */
     Map();
 

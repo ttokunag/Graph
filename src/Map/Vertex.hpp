@@ -41,7 +41,7 @@ struct VertexPtrCmp {
         //     return true;
         // }
         // otherwise return the shorter one
-        return lhs->distance < rhs->distance;
+        return lhs->distance > rhs->distance;
     }
 };
 

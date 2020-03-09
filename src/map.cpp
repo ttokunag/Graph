@@ -47,6 +47,13 @@ int main(int argc, char* argv[]) {
     Map* map = new Map();
     map->buildMapFromFile(arg1, arg2);
 
+    for (Vertex* vertex : map->vertices) {
+        cout << vertex->name << endl;
+        for (Edge* edge : vertex->outEdges) {
+            cout << "\t" << edge->target->name << " " << edge->weight << endl;
+        }
+    }
+
     if (isShortestPath) {
         ifstream pairsFile(arg3);
         ofstream outFile(arg4);
