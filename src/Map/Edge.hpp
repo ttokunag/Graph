@@ -23,4 +23,12 @@ class Edge {
         : source(source), target(target), weight(weight) {}
 };
 
+struct EdgePtrCmp {
+    // decide priority of vertices
+    bool operator()(Edge*& lhs, Edge*& rhs) const {
+        // otherwise return the shorter one
+        return lhs->weight > rhs->weight;
+    }
+};
+
 #endif  // EDGE_HPP
