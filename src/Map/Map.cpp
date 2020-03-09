@@ -182,3 +182,35 @@ Map::~Map() {
         delete e;
     }
 }
+
+class DisjointSet {
+  public:
+    Vertex* find(Vertex* vertex) {
+        vector<Vertex*> children;
+        while (vertex->parent != nullptr) {
+            children.push_back(vertex);
+            vertex = vertex->parent;
+        }
+
+        // compress a path
+        for (Vertex* v : children) {
+            v->parent = vertex;
+        }
+
+        return vertex;
+    }
+
+    bool unionVerts(Vertex* v1, Vertex* v2) {
+        if (v1 == nullptr || v2 == nullptr) {
+            return false;
+        }
+
+        Vertex* v1Parent = find(v1);
+        Vertex* v2Parent = find(v2);
+        if (v1Parent != v2Parent) {
+            v2Parent->parent = v1Parent;
+        }
+
+        return true;
+    }
+};

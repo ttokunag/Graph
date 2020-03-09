@@ -17,11 +17,11 @@ class Vertex {
     float y;
     vector<Edge*> outEdges;  // the adjacency list of this vertex that contains
                              // all outgoing edges
-    float distance;          // distance from a root
-    Vertex* previous;        // a previous node in a shortest path
-    bool done;  // true if a shortest distance is already calculated
 
-    // TODO: you may add more member variables here
+    float distance;    // distance from a root
+    Vertex* previous;  // a previous node in a dijkstra shortest path
+    Vertex* parent;    // a parent node in a disjoint set
+    bool done;         // true if a shortest distance is already calculated
 
     /* The constructor that creates a new vertex */
     Vertex(const string& name, float x, float y)
@@ -30,16 +30,13 @@ class Vertex {
           y(y),
           distance(INFINITY),
           previous(nullptr),
+          parent(nullptr),
           done(false) {}
 };
 
 struct VertexPtrCmp {
     // decide priority of vertices
     bool operator()(Vertex*& lhs, Vertex*& rhs) const {
-        // // if distances are the same, return a left hand side
-        // if (lhs->distance == rhs->distance) {
-        //     return true;
-        // }
         // otherwise return the shorter one
         return lhs->distance > rhs->distance;
     }
