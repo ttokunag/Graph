@@ -211,8 +211,6 @@ Map::~Map() {
     }
 }
 
-// class DisjointSet {
-//   public:
 Vertex* Map::find(Vertex* vertex) {
     vector<Vertex*> children;
     while (vertex->parent != nullptr) {
@@ -242,4 +240,3 @@ bool Map::unionVerts(Vertex* v1, Vertex* v2) {
 
     return false;
 }
-// };
