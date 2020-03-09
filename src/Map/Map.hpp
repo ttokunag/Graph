@@ -36,6 +36,10 @@ class Map {
 
     void backtraceThePath(Vertex* node, vector<Vertex*>* path);
 
+    Vertex* find(Vertex* vertex);
+
+    bool unionVerts(Vertex* v1, Vertex* v2);
+
   public:
     vector<Vertex*> vertices;
     /* TODO */

@@ -164,8 +164,36 @@ void Map::backtraceThePath(Vertex* node, vector<Vertex*>* path) {
     path->push_back(node);
 }
 
-/* TODO */
-void Map::findMST(vector<Edge*>& MST) {}
+/**
+ * calculates a minimum spanning tree of this map. edges included in this
+ * spanning tree are pushed in a given vector
+ *
+ * @param vector<Edge*>: a vector which is pushed edges in a spanning tree
+ */
+void Map::findMST(vector<Edge*>& MST) {
+    // initializes a priority queue
+    priority_queue<Edge*, vector<Edge*>, EdgePtrCmp> pq;
+    for (Edge* edge : undirectedEdges) {
+        pq.push(edge);
+    }
+
+    int numEdges = 0;
+
+    while (!pq.empty() && numEdges < vertices.size() - 1) {
+        Edge* currEdge = pq.top();
+        pq.pop();
+
+        if (unionVerts(currEdge->source, currEdge->target)) {
+            MST.push_back(currEdge);
+            numEdges++;
+        }
+    }
+
+    // reset parents status
+    for (Vertex* v : vertices) {
+        v->parent = nullptr;
+    }
+}
 
 /* TODO */
 void Map::crucialRoads(vector<Edge*>& roads) {}
@@ -183,34 +211,35 @@ Map::~Map() {
     }
 }
 
-class DisjointSet {
-  public:
-    Vertex* find(Vertex* vertex) {
-        vector<Vertex*> children;
-        while (vertex->parent != nullptr) {
-            children.push_back(vertex);
-            vertex = vertex->parent;
-        }
-
-        // compress a path
-        for (Vertex* v : children) {
-            v->parent = vertex;
-        }
-
-        return vertex;
+// class DisjointSet {
+//   public:
+Vertex* Map::find(Vertex* vertex) {
+    vector<Vertex*> children;
+    while (vertex->parent != nullptr) {
+        children.push_back(vertex);
+        vertex = vertex->parent;
     }
 
-    bool unionVerts(Vertex* v1, Vertex* v2) {
-        if (v1 == nullptr || v2 == nullptr) {
-            return false;
-        }
+    // compress a path
+    for (Vertex* v : children) {
+        v->parent = vertex;
+    }
 
-        Vertex* v1Parent = find(v1);
-        Vertex* v2Parent = find(v2);
-        if (v1Parent != v2Parent) {
-            v2Parent->parent = v1Parent;
-        }
+    return vertex;
+}
 
+bool Map::unionVerts(Vertex* v1, Vertex* v2) {
+    if (v1 == nullptr || v2 == nullptr) {
+        return false;
+    }
+
+    Vertex* v1Parent = find(v1);
+    Vertex* v2Parent = find(v2);
+    if (v1Parent != v2Parent) {
+        v2Parent->parent = v1Parent;
         return true;
     }
-};
+
+    return false;
+}
+// };
