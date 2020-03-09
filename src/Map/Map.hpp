@@ -34,6 +34,8 @@ class Map {
      */
     bool addEdge(const string& name1, const string& name2);
 
+    void backtraceThePath(Vertex* node, vector<Vertex*>* path);
+
   public:
     /* TODO */
     Map();

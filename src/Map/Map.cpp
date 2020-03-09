@@ -99,7 +99,70 @@ bool Map::addEdge(const string& name1, const string& name2) {
  * @param vector<Vertex*>: contains nodes of a shortest path
  */
 void Map::Dijkstra(const string& from, const string& to,
-                   vector<Vertex*>& shortestPath) {}
+                   vector<Vertex*>& shortestPath) {
+    Vertex* start = vertices[vertexId[from]];
+    Vertex* dest = vertices[vertexId[to]];
+
+    start->distance = 0;  // set the initial distance
+
+    // a priority queue which contains next nodes to visit
+    priority_queue<Vertex*, vector<Vertex*>, VertexPtrCmp> pq;
+    pq.push(start);
+
+    vector<Vertex*> visited;
+    visited.push_back(start);
+
+    while (!pq.empty()) {
+        Vertex* curr = pq.top();
+        pq.pop();
+        curr->done = true;  // mark a current node done
+        // when reaching the destination node
+        if (curr == dest) {
+            break;
+        } else {  // otherwise push neighbor nodes
+            for (Edge* edge : curr->outEdges) {
+                Vertex* neighbor = edge->target;
+                // when a new weight is smaller, update a node and push it
+                if (!(neighbor->done) &&
+                    curr->distance + edge->weight < neighbor->distance) {
+                    // updates a node's distance
+                    neighbor->distance = curr->distance + edge->weight;
+                    // updates a node's previous node
+                    neighbor->previous = curr;
+                    // push a node to a priority queue and a visited vector
+                    pq.push(neighbor);
+                    visited.push_back(neighbor);
+                }
+            }
+        }
+    }
+
+    // when there's no such path
+    if (dest->previous == nullptr) {
+        return;
+    }
+
+    // back trace the shortest path
+    backtraceThePath(dest, &shortestPath);
+
+    // reset visited nodes' status
+    for (Vertex* node : visited) {
+        node->distance = INFINITY;
+        node->previous = nullptr;
+        node->done = false;
+    }
+}
+
+void Map::backtraceThePath(Vertex* node, vector<Vertex*>* path) {
+    // base case: a given node is nullptr
+    if (node == nullptr) {
+        return;
+    }
+    // recursive phase
+    backtraceThePath(node->previous, path);
+
+    path->push_back(node);
+}
 
 /* TODO */
 void Map::findMST(vector<Edge*>& MST) {}

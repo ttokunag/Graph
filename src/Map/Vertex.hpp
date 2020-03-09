@@ -19,21 +19,27 @@ class Vertex {
                              // all outgoing edges
     float distance;          // distance from a root
     Vertex* previous;        // a previous node in a shortest path
+    bool done;  // true if a shortest distance is already calculated
 
     // TODO: you may add more member variables here
 
     /* The constructor that creates a new vertex */
     Vertex(const string& name, float x, float y)
-        : name(name), x(x), y(y), distance(INFINITY), previous(nullptr) {}
+        : name(name),
+          x(x),
+          y(y),
+          distance(INFINITY),
+          previous(nullptr),
+          done(false) {}
 };
 
 struct VertexPtrCmp {
     // decide priority of vertices
     bool operator()(Vertex*& lhs, Vertex*& rhs) const {
-        // if distances are the same, return a left hand side
-        if (lhs->distance == rhs->distance) {
-            return true;
-        }
+        // // if distances are the same, return a left hand side
+        // if (lhs->distance == rhs->distance) {
+        //     return true;
+        // }
         // otherwise return the shorter one
         return lhs->distance < rhs->distance;
     }
