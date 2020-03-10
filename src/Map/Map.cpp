@@ -1,8 +1,11 @@
-
+/**
+ * This file implements Map class
+ * Author: Tomoya Tokunaga
+ */
 #include <queue>
 #include "Map.hpp"
 
-/* TODO */
+/* constructor of Map class */
 Map::Map() {}
 
 /* Build the map graph from vertex and edge files */
@@ -153,6 +156,14 @@ void Map::Dijkstra(const string& from, const string& to,
     }
 }
 
+/**
+ * A helper function for Dijkstra's algorithm which push vertices in the
+ * shortest path to a result vector.
+ *
+ * @param Vertex*: a current node
+ * @param vector<Vertex*>*: a vector which contains vertices in the shortest
+ * path
+ */
 void Map::backtraceThePath(Vertex* node, vector<Vertex*>* path) {
     // base case: a given node is nullptr
     if (node == nullptr) {
@@ -195,7 +206,11 @@ void Map::findMST(vector<Edge*>& MST) {
     }
 }
 
-/* TODO */
+/**
+ * a function which calculates bridges in a graph
+ *
+ * @param vector<Edge*>: a vector containing edges which is bridges
+ */
 void Map::crucialRoads(vector<Edge*>& roads) {
     // invalid case: a map contains no node
     if (vertices.size() == 0) {
@@ -206,6 +221,7 @@ void Map::crucialRoads(vector<Edge*>& roads) {
     vector<Edge*>* vecPtr = &roads;
     crucialRoadsHelper(vertices[0], vecPtr, time);
 
+    // reset a parent status
     for (Vertex* v : vertices) {
         v->discoveryTime = -1;
         v->low = -1;
@@ -213,7 +229,15 @@ void Map::crucialRoads(vector<Edge*>& roads) {
     }
 }
 
+/**
+ * A helper function which calculates bridges
+ *
+ * @param Vertex*: a current node
+ * @param vector<Edge*>*: a vector containing bridges
+ * @param int: time of traversal
+ */
 void Map::crucialRoadsHelper(Vertex* node, vector<Edge*>*& roads, int time) {
+    // set the time of discovery and low of a current node
     node->discoveryTime = node->low = ++time;
 
     for (Edge* edge : node->outEdges) {
@@ -230,7 +254,9 @@ void Map::crucialRoadsHelper(Vertex* node, vector<Edge*>*& roads, int time) {
             if (neighbor->low > node->discoveryTime) {
                 roads->push_back(edge);
             }
-        } else if (neighbor != node->parent) {
+        }
+        // when a neighbor is not a current node's parent
+        else if (neighbor != node->parent) {
             node->low = min(node->low, neighbor->discoveryTime);
         }
     }
