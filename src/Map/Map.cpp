@@ -1,5 +1,7 @@
 /**
- * This file implements Map class
+ * This file implements Map class. A vertex class and edge class used in this
+ * class defined in Vertex.hpp and Edge.hpp
+ *
  * Author: Tomoya Tokunaga
  */
 #include <queue>
@@ -275,8 +277,16 @@ Map::~Map() {
     }
 }
 
+/**
+ * A function which implements find method of disjoint set. Returns a
+ * representation vertex of a set which a given vertex belongs to
+ *
+ * @param Vertex*: a vertex
+ */
 Vertex* Map::find(Vertex* vertex) {
+    // holds vertices so as to reset their parents status later
     vector<Vertex*> children;
+
     while (vertex->parent != nullptr) {
         children.push_back(vertex);
         vertex = vertex->parent;
@@ -290,7 +300,15 @@ Vertex* Map::find(Vertex* vertex) {
     return vertex;
 }
 
+/**
+ * A function which implements union method of disjoint set. Returns true if
+ * given two vertices belong to the same set
+ *
+ * @param Vertex*: first vertex
+ * @param Vertex*: second vertex
+ */
 bool Map::unionVerts(Vertex* v1, Vertex* v2) {
+    // invalid case: a given pointer is nullptr
     if (v1 == nullptr || v2 == nullptr) {
         return false;
     }
