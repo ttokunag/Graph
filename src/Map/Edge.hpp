@@ -1,3 +1,7 @@
+/**
+ * This class implements an edge class used in Map.cpp
+ */
+
 #ifndef EDGE_HPP
 #define EDGE_HPP
 
@@ -23,6 +27,7 @@ class Edge {
         : source(source), target(target), weight(weight) {}
 };
 
+// comparator used for use of priority queue
 struct EdgePtrCmp {
     // decide priority of vertices
     bool operator()(Edge*& lhs, Edge*& rhs) const {
