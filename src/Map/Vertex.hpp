@@ -1,3 +1,7 @@
+/**
+ * This file implements a vertex class used in Map.cpp
+ */
+
 #ifndef VERTEX_HPP
 #define VERTEX_HPP
 
@@ -27,8 +31,8 @@ class Vertex {
     Vertex* parent;  // a parent node in a disjoint set
 
     // member variables for crucial roads
-    int discoveryTime;
-    int low;
+    int discoveryTime;  // discovery time of a vertex
+    int low;            // lower limit time of a vertex
 
     /* The constructor that creates a new vertex */
     Vertex(const string& name, float x, float y)
@@ -43,6 +47,7 @@ class Vertex {
           low(-1) {}
 };
 
+// comparator for use of priority queue
 struct VertexPtrCmp {
     // decide priority of vertices
     bool operator()(Vertex*& lhs, Vertex*& rhs) const {
