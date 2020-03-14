@@ -1,6 +1,6 @@
 /**
  * A header class for Map.cpp
- * Author: Tomoya Tokunaga
+ * Author: Tomoya Tokunaga - winter 2020
  */
 
 #ifndef MAP_HPP
