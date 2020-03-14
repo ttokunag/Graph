@@ -233,6 +233,7 @@ void Map::crucialRoads(vector<Edge*>& roads) {
 
 /**
  * A helper function which calculates bridges
+ * (reference: https://www.geeksforgeeks.org/bridge-in-a-graph/)
  *
  * @param Vertex*: a current node
  * @param vector<Edge*>*: a vector containing bridges

@@ -1,7 +1,5 @@
 /**
  * This file implements a vertex class used in Map.cpp
- *
- * Author:: Tomoya Tokunaga
  */
 
 #ifndef VERTEX_HPP
