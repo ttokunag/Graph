@@ -271,10 +271,10 @@ Map::~Map() {
         for (Edge* e : v->outEdges) {
             delete e;
         }
-        delete v;
+        delete (v);
     }
     for (Edge* e : undirectedEdges) {
-        delete e;
+        delete (e);
     }
 }
 
